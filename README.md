@@ -72,7 +72,7 @@ O sistema iniciará automaticamente:
 ## 📂 Estrutura do Projeto
 
 ```
-/tp5_app
+/Miguel_Prytoluk_PB_2025_1
 ├── dags/
 │   └── batch_pipeline_taxi_nyc.py
 ├── streaming/
