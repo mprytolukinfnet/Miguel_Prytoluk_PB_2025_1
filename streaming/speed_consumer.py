@@ -3,9 +3,12 @@
 from kafka import KafkaConsumer
 import json
 import redis
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 r = redis.Redis(host='redis', port=6379, db=0, decode_responses=True)
-print("Conectado ao Redis.")
+logging.info("Conectado ao Redis.")
 
 consumer = KafkaConsumer(
     'taxi_trips',
@@ -15,7 +18,7 @@ consumer = KafkaConsumer(
     value_deserializer=lambda x: json.loads(x.decode('utf-8'))
 )
 
-print("Consumer da Camada Speed iniciado. Aguardando mensagens...")
+logging.info("Consumer da Camada Speed iniciado. Aguardando mensagens...")
 for message in consumer:
     try:
         trip = message.value
@@ -26,6 +29,7 @@ for message in consumer:
             redis_key = f"realtime_fare:vendor:{vendor_id}"
             # Agregação atômica no Redis
             current_fare = r.incrbyfloat(redis_key, fare)
-            print(f"<-- Mensagem recebida. Faturamento para Vendor {vendor_id} atualizado para: ${current_fare:.2f}")
+            logging.info(f"<-- Mensagem recebida: VendorID={vendor_id}. Faturamento atualizado para ${current_fare:.2f}")
+
     except Exception as e:
-        print(f"Erro ao processar mensagem: {e}")
+        logging.error(f"Erro ao processar mensagem: {e}")

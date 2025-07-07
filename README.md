@@ -54,7 +54,7 @@ GOLD_BUCKET=gold-bucket
 Execute o sistema completo com um único comando:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 O sistema iniciará automaticamente:

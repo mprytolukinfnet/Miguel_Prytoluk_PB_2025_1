@@ -167,7 +167,7 @@ def aggregate_to_gold(aggregation_type: str):
 
 # --- Definição do DAG ---
 with DAG(
-    dag_id='batch_pipeline_taxi_nyc_enhanced',
+    dag_id='batch_pipeline_taxi_nyc',
     start_date=datetime(2024, 1, 1),
     schedule='@once',
     catchup=False,
@@ -179,7 +179,7 @@ with DAG(
     - **Silver**: Limpeza, junção dos datasets e engenharia de features (duração, velocidade, etc.).
     - **Gold**: Criação de múltiplas tabelas agregadas para diferentes análises de negócio.
     """,
-    tags=['data-engineering', 'batch', 'minio', 'enhanced'],
+    tags=['data-engineering', 'batch', 'minio'],
 ) as dag:
     
     create_buckets_task = PythonOperator(
